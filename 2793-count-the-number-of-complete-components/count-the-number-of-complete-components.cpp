@@ -13,14 +13,14 @@ public:
 
         for(int i = 0;i<n;i++){
             if(!visit[i]){
-                vector<int> arr(n,0);
+                vector<int> component;
                 q.push(i);
                 visit[i] = true;
                 
                 while(!q.empty()){
                     int top = q.front();
                     q.pop();
-                    arr[top]++;
+                    component.push_back(top);
                     
                     for(int neighbor : adj[top]){
                         if(!visit[neighbor]){
@@ -31,17 +31,11 @@ public:
                 }
                 
                 bool isComplete = true;
-                int componentSize = 0;
-                for(int j = 0;j<n;j++){
-                    if(arr[j] > 0) componentSize++;
-                }
-                
-                for(int j = 0;j<n;j++){
-                    if(arr[j] > 0){
-                        if(adj[j].size() != componentSize - 1){
-                            isComplete = false;
-                            break;
-                        }
+                int componentSize = component.size();
+                for(int node : component){
+                    if(adj[node].size() != componentSize - 1){
+                        isComplete = false;
+                        break;
                     }
                 }
                 
